@@ -1,3 +1,7 @@
 Diary
 
-Date	Start	Stop	Activity	Comments
+Date		Start	Stop	Activity	Comments
+2013/10/03	19:00	19:40	Setup		Initialised Repo and required files
+2013/10/03	21:00	22:30	Planning	Planned different methods for solution completion.
+										Decided on first priority: Parsing and indentation.
+

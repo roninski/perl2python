@@ -1,2 +1,4 @@
 3rd of October, 2013
-	- 
+	- Set up repo, changelog and diary.
+	- Created perl2python.pl
+	
