@@ -1,0 +1,53 @@
+Perl2Python
+Luke Alderman
+COMP2041 2013 s2
+
+** Intentions **
+This is intended to fulfil the requirements of the first assignment for COMP2041 2013 S2. 
+
+** Included files **
+perl2python.pl is the main executable code. 
+diary.txt is a diary of workflow and process
+changelog.txt is a less detailed version of diary just detailing changes
+
+** Requirements **
+Subset 0
+simple print statements (with explicit new lines)
+strings
+
+Subset 1
+variables
+numeric constants
+arithmetic operators: + - * / % **
+
+Subset 2
+logical operators: || && ! and or not
+comparison operators: <, <=, >, >=, <>, !=, ==
+bitwise operators: | ^ & << >> ~
+if, for, while statements
+break, continue
+
+Subset 3
+simple use of
+more complex print statements (e.g. without new lines)
+simple uses of ++ & --
+..
+chomp, split, join, ARGV
+
+Subset 4
+<>
+. .=
+chomp
+variable interpolation
+simple uses of %
+arrays and hashes
+push, pop, shift, unshift, reverse
+simple use of regexes (// and s///)
+example of subset 4
+
+Subset 5
+anonymous variable ($_)
+open
+functions
+more complex uses of features from subsets 1-4
+self-application (translating itself to python)
