@@ -1,4 +1,25 @@
-3rd of October, 2013
-	- Set up repo, changelog and diary.
-	- Created perl2python.pl
-	
+Changelog
+
+2013/10/03
+	Changes:
+		- Set up repo, changelog and diary.
+		- Created perl2python.pl
+
+2013/10/04
+	Changes:
+		- Implemented input of data to a single string format
+
+2013/10/05
+	Changes:
+		- Added a regex command to split the code string by semicolons, curly brackets and comments
+		- Code for removing semicolons, swapping curly brackets out added 
+		- Python flow control (conversion from curly brackets to indentation) handled (note - will conflict with hashes)
+
+	High Priority To-Do:
+		- Handle strings, //, and s/// in initial command parsing
+		- Dollar sign removal from variables
+		- Method for function replacement (including nested functions) - possibly recursive?
+
+	Low Priority To-Do:
+		- Recognise hashes in initial parsing (lack of semi-colons?)
+
