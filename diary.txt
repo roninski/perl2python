@@ -1,7 +1,7 @@
 Diary
 
 Date		Start	Stop	Activity		Comments
-2013/10/03	19:00	19:40	Setup			Initialised Repo and required files
+2013/10/03	19:00	19:40	Setup			Initialised repo and required files
 2013/10/03	21:00	22:30	Planning		Planned different methods for solution completion
 											Decided on first priority: Parsing and indentation
 2013/10/04	11:00			Coding			Made all input a single string
@@ -12,4 +12,5 @@ Date		Start	Stop	Activity		Comments
 2013/10/08	13:00			Coding			Dollar sign removal added, no reserved character handling
 											Added code to separate and cast in-string variables
 2013/10/08			15:45					Wrote Regex to handle ++ and -- to python conversion
-
+2013/10/09	03:00							Standardised function representation
+2013/10/09			04:30					Detected and handled some functions (print and last)

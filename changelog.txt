@@ -22,12 +22,17 @@ Changelog
 		- Turns strings with variables inside them into a python readable form (doesn't handle . concat at the moment)
 		- Converts ++ and -- to a python usable format (+=1 and -=1)
 
+2013/10/09
+	Changes:
+		- Standardised in-line function display
+		- Handled "last" and detected "print" functions
+
 	High Priority To-Do:
-		- Handle strings, //, and s/// in initial command parsing
-		- Dollar sign removal from variables
-		- Method for function replacement (including nested functions) - possibly recursive?
+		- Look into how perl functions can be written, EXACT SYNTACTICAL RULES - semantics are important
+		- Method for function recognition and replacement (including nested functions) - possibly recursive?
 
 	Low Priority To-Do:
 		- Recognise hashes in initial parsing (lack of semi-colons?)
-		- Rewrite parser
+		- Rewrite parser yourself
+		- Handle python imports
 

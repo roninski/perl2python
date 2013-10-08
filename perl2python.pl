@@ -1,5 +1,15 @@
 #!/usr/bin/perl -w
 
+# Perl function handling
+# Two methods:
+# a) print x, y;
+# b) print(x, y)
+# Python uses brackets, so if I can get everything in brackets and 
+# formatted properly in cases like 'print "hello"' I can change the inside to a python outside
+
+
+
+
 # Puts all the code into one line
 $code = "";
 while ($line = <>){
@@ -11,12 +21,54 @@ while ($line = <>){
 @array = split(/#.*\K(?=\n)|(?<=[^\\][;{}])/,$code);
 # Currently not managed: reserved characters between //s and in strings, hashes.
 
+%imports = (); # array for imports to access specific python functions
+
+# takes one string, formats it into nested functions e.g. print(print("hello")) from print print "hello"
+# this will format
+sub functionFormat{
+	# print $_[0];
+	my $toCheck = $_[0];
+	if ($toCheck =~/(^|\s)[A-Za-z]\w*\s*([^;]*)/){
+		# regex seems to detect most functions fine
+		# this probably should be recursive but that's a pain
+		my $temp = $2;
+		if ($temp !~ /(?<=^\().*(?=\))/){
+			$temp = "($temp)";
+		}
+		$toCheck =~ s/(^|\s)[A-Za-z]\w*\s*\K([^;]*)/$temp/;
+
+	}
+	return $toCheck;
+}
+
+sub handleFunctions{
+	my $toHandle = $_[0];
+	if ($toHandle =~ /(^|\s)([A-Za-z]\w*)\s*\(([^;]*)\)/){
+		$function = $2;
+		$value = $3;
+		if ($function =~ /print\b/){
+			if (!$imports{"import sys"}){
+				$imports{"import sys"} = 1; # Global array imports
+			}
+
+		} elsif ($function =~ /last/){
+			$toHandle = "break;";
+		}
+	}
+	return $toHandle;
+}
+
+
 # Main replacements
 foreach $line (@array){
 	# Strip command of heading and trailing whitespace
 	$line =~ s/^\s*//;
 	$line =~ s/\s*$//;
 
+	if ($line =~ /;$/){
+		$line = &functionFormat($line);
+		$line = &handleFunctions($line);
+	}
 	# Split variables from single strings. 
 	# Only handles single strings
 	if ($line =~ /("[^"]*")/){
@@ -28,6 +80,9 @@ foreach $line (@array){
 	# Handle ++ or -- operations (change to +=1 or -=1)
 	$line =~ s/(^|[^\\])\K([\$@%]\w+)\+\+/$2+=1/g;
 	$line =~ s/(^|[^\\])\K([\$@%]\w+)--/$2-=1/g;
+
+
+
 }
 
 # Handles converting the flow across (indentation, etc)
@@ -56,7 +111,7 @@ foreach $line (@array){
 # Note: Could in pre-parsing add special characters after the $ or @ to differentiate 
 # from escaped or standard characters
 foreach $line (@array){
-	$line =~ s/(^|[^\\])\K[\$@](?=\w+($|\W))//g;
+	$line =~ s/(^|[^\\])\K[\$@%](?=\w+($|\W))//g;
 }
 
 foreach $line (@array){
