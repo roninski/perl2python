@@ -15,6 +15,13 @@ Changelog
 		- Code for removing semicolons, swapping curly brackets out added 
 		- Python flow control (conversion from curly brackets to indentation) handled (note - will conflict with hashes)
 
+2013/10/08
+	Changes:
+		- Handled variable basics - removing dollar signs
+		- Still does not handle reserved characters in strange places (e.g. $ ; {} in strings or regex statements)
+		- Turns strings with variables inside them into a python readable form (doesn't handle . concat at the moment)
+		- Converts ++ and -- to a python usable format (+=1 and -=1)
+
 	High Priority To-Do:
 		- Handle strings, //, and s/// in initial command parsing
 		- Dollar sign removal from variables
@@ -22,4 +29,5 @@ Changelog
 
 	Low Priority To-Do:
 		- Recognise hashes in initial parsing (lack of semi-colons?)
+		- Rewrite parser
 

@@ -1,10 +1,15 @@
 Diary
 
-Date		Start	Stop	Activity	Comments
-2013/10/03	19:00	19:40	Setup		Initialised Repo and required files
-2013/10/03	21:00	22:30	Planning	Planned different methods for solution completion
-										Decided on first priority: Parsing and indentation
-2013/10/04	11:00			Coding		Made all input a single string
-										Wrote regex to split up string into individual commands
-										Set up flow translation (curly brackets to indentation)
-2013/10/05			02:40				Converted curly brackets to colons or nothing
+Date		Start	Stop	Activity		Comments
+2013/10/03	19:00	19:40	Setup			Initialised Repo and required files
+2013/10/03	21:00	22:30	Planning		Planned different methods for solution completion
+											Decided on first priority: Parsing and indentation
+2013/10/04	11:00			Coding			Made all input a single string
+											Wrote regex to split up string into individual commands
+											Set up flow translation (curly brackets to indentation)
+2013/10/05			02:40					Converted curly brackets to colons or nothing
+2013/10/07	15:00	16:30	Experimenting	Tested Regex for ignoring strings, didn't work
+2013/10/08	13:00			Coding			Dollar sign removal added, no reserved character handling
+											Added code to separate and cast in-string variables
+2013/10/08			15:45					Wrote Regex to handle ++ and -- to python conversion
+
