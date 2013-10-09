@@ -129,8 +129,8 @@ foreach $line (@array){
 	}
 
 	# Handle ++ or -- operations (change to +=1 or -=1)
-	$line =~ s/(^|[^\\])\K([\$@%]\w+)\+\+/$2+=1/g;
-	$line =~ s/(^|[^\\])\K([\$@%]\w+)--/$2-=1/g;
+	$line =~ s/(^|[^\\])\K([\$@%]\w+)\+\+/$2 = int($2) + 1/g;
+	$line =~ s/(^|[^\\])\K([\$@%]\w+)--/$2 = int($2) - 1/g;
 
 	# Handle ||, && and !
 	$line =~ s/&&/ and /g;
