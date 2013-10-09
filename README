@@ -6,14 +6,30 @@ COMP2041 2013 s2
 This is intended to fulfil the requirements of the first assignment for COMP2041 2013 S2. 
 
 ** Included files **
+README is this file
 perl2python.pl is the main executable code. 
 diary.txt is a diary of workflow and process
 changelog.txt is a less detailed version of diary just detailing changes
+demos folder contains demos (and pre-outputed python versions) for the program
 
 ** Running the code ** 
 Code takes from standard input, reads to standard out. 
+e.g. 
+./perl2python.py < demos/demo1.pl
+prints the converted code to standard output
+./perl2python.py < demos/demo1.pl > demos/demo1.py
+puts the converted code into a corresponding python file in the demos folder
+
+** Restrictions **
+- Handling semicolons, curly brackets, logical operators inside strings and regex expressions
+- Nested functions
+- Can't differentiate between where integer and decimal casting is required
 
 ** Requirements **
+Subsets 0-2 fully working (except standard for statements - foreach statements working though)
+Subset 3 mostly working
+Subset 4 Variable Interpolation mostly working
+
 Subset 0
 simple print statements (with explicit new lines)
 strings
@@ -46,7 +62,6 @@ simple uses of %
 arrays and hashes
 push, pop, shift, unshift, reverse
 simple use of regexes (// and s///)
-example of subset 4
 
 Subset 5
 anonymous variable ($_)
