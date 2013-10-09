@@ -21,4 +21,7 @@ Date		Start	Stop	Activity		Comments
 											Handled basic usage of the ARGV array
 											Basic implementation of foreach
 2013/10/09			17:30					Chop and Chomp handled
+2013/10/09	17:30	18:15	Testing			Writing Demo functions to test and demo the code
+2013/10/09	19:00	19:10	Coding			Added support for a..b
+2013/10/09	22:00	23:00	Coding			Arithmetic casting to float (some output discrepancies)
 

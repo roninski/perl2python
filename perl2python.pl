@@ -24,7 +24,7 @@ sub functionFormat{
 		if ($temp !~ /(?<=^\()(.*)(?=\))/){
 			$temp = "$2";
 		}
-		$temp = &functionFormat($temp);
+		#$temp = &functionFormat($temp);
 		if ($temp !~ /(?<=^\().*(?=\))/){
 			$temp = "($temp)";
 		}
@@ -41,7 +41,6 @@ sub handleFunctions{
 		$value = $3;
 		# Removing semicolons could fix this
 		# $value = &handleFunctions($value);
-		print "value: $value\n";
 		if ($function =~ /print/){
 			if (!$imports{"import sys"}){
 				$imports{"import sys"} = 1; # Global array imports
@@ -90,16 +89,15 @@ foreach $line (@array){
 		my $in = $2;
 		if ($in =~ /@/){
 			$line = "for $for in $in \{";
+		} elsif ($in =~ /(\$[A-Za-z]\w*|[0-9]+)\s*\.\.\s*(\$[A-Za-z]\w*|[0-9]+)/) {
+			$line = "for $for in xrange(int($1), int($2)+1){";
 		}
 		# could be a range - specified by a..b
-		# could be an array - has an @ at the front
-		# could be a function, leave as is
-
 	}
 
 	# Handle <STDIN> or <> outside of loops
 	if ($line =~ /<STDIN>/ && $line !~ /while/){
-		$line =~ s/<STDIN>/sys.stdin.read\(\)/;
+		$line =~ s/<STDIN>/raw_input()/;
 	# Handle while loops where a variable is being set to <STDIN> or <>
 	# This is bad and you should feel bad
 	} elsif ($line =~ /^while\s*\((\s*\$[A-Za-z]\w*)\s*=\s*(<STDIN>|<>)\s*\)/){
@@ -117,6 +115,11 @@ foreach $line (@array){
 	$line =~ s/\seq\s/ == /g;
 	$line =~ s/\seq\s/ != /g;
 
+	# Handle int casting
+	if ($line =~ /([0-9]+|\$[A-Za-z]\w*)\s*([\+\-\*\/\%]|\*\*)\s*([0-9]+|\$[A-Za-z]\w*)/){
+		$line =~ s/([0-9]+|\$[A-Za-z]\w*)\s*([\+\-\*\/\%]|\*\*)\s*([0-9]+|\$[A-Za-z]\w*)/float($1) $2 float($3)/g;
+	} 
+
 	# Split variables from single strings. 
 	# Only handles single strings
 	if ($line =~ /(["'][^"']*['"])/){
@@ -132,7 +135,7 @@ foreach $line (@array){
 	# Handle ||, && and !
 	$line =~ s/&&/ and /g;
 	$line =~ s/\|\|/ or /g;
-	$line =~ s/[^#]!/ not /g;
+	$line =~ s/[^#]!(?=\s*[\$\@])/ not /g;
 
 }
 

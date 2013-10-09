@@ -30,10 +30,11 @@ Changelog
 		- <STDIN> and <> working when set to variables (in or out of while loops)
 		- Basic handling of foreach
 		- Handled chop and chomp
+		- Support for .. operator with float casting
+		- Wrote demo cases
 
 	High Priority To-Do:
-		- Foreach loops - a..b (THIS CAN BE DONE QUICKLY)
-		- NESTED FUNCTIONS - do this IMMEDIATELY AFTER Foreach loops
+		- Casting
 		- Ensure all of subsets 0 and 1 are working correctly
 		- Handle if, for and while loops
 		- Handle function nesting
@@ -49,4 +50,5 @@ Changelog
 		- Handling semicolons, curly brackets, logical operators inside strings and regex expressions
 		- Nested functions
 		- Casting for arithmetic operations
+		- Can't differentiate between where integer and decimal casting is requireda
 
