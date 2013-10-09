@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 # Perl function handling
 # Two methods:
@@ -50,11 +50,21 @@ sub handleFunctions{
 			if (!$imports{"import sys"}){
 				$imports{"import sys"} = 1; # Global array imports
 			}
-
+			$function = "sys.stdout.write";
+			$value =~ s/(?<=["'])\s*\.\s*(?=["'])/\+/g;
+			my @array = split(/,/,$value);
+			foreach $i (@array){
+				$i = "str($i)";
+			}
+			$value = join('+', @array);
+			$toHandle = "$function ($value);"
+			# need to finish this handling
 		} elsif ($function =~ /last/){
 			$toHandle = "break;";
+		} elsif ($function =~ /next/){
+			$toHandle = "continue;"
 		}
-	}
+	} 
 	return $toHandle;
 }
 
@@ -65,23 +75,31 @@ foreach $line (@array){
 	$line =~ s/^\s*//;
 	$line =~ s/\s*$//;
 
+	# Handle Functions
 	if ($line =~ /;$/){
 		$line = &functionFormat($line);
 		$line = &handleFunctions($line);
+	# Handle elsif -> elif
+	} elsif ($line =~ /elsif/){ 
+		$line =~ s/elsif/elif/;
 	}
+
 	# Split variables from single strings. 
 	# Only handles single strings
-	if ($line =~ /("[^"]*")/){
+	if ($line =~ /(["'][^"']*['"])/){
 		$x = $1;
 		$x =~ s/[^\\]\K([\$@%]\w*)(?=\W)/"\+str\($1\)\+"/g;
-		$line =~ s/"[^"]*"/$x/;
+		$line =~ s/["'][^"']*['"]/$x/;
 	}
 
 	# Handle ++ or -- operations (change to +=1 or -=1)
 	$line =~ s/(^|[^\\])\K([\$@%]\w+)\+\+/$2+=1/g;
 	$line =~ s/(^|[^\\])\K([\$@%]\w+)--/$2-=1/g;
 
-
+	# Handle ||, && and !
+	$line =~ s/&&/ and /g;
+	$line =~ s/\|\|/ or /g;
+	$line =~ s/[^#]!/ not /g;
 
 }
 
@@ -114,6 +132,23 @@ foreach $line (@array){
 	$line =~ s/(^|[^\\])\K[\$@%](?=\w+($|\W))//g;
 }
 
+# handles final output, including outputting imports
 foreach $line (@array){
-	print $line."\n";
+	if (!$seenFirst && $line =~ /^\s*#!/){
+		print $line."\n";
+		foreach $import (keys %imports){
+			print $import."\n";
+		}
+		$seenFirst = 1;
+	} elsif (!$seenFirst && $line =~ /^\s*\S/){
+		foreach $import (keys %input){
+			print $import."\n";
+		}
+		print $line."\n";
+		$seenFirst = 1;
+	} else {
+		print $line."\n";
+	}
+
 }
+

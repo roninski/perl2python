@@ -26,13 +26,19 @@ Changelog
 	Changes:
 		- Standardised in-line function display
 		- Handled "last" and detected "print" functions
+		- If, else, elif and while working
+		
 
 	High Priority To-Do:
-		- Look into how perl functions can be written, EXACT SYNTACTICAL RULES - semantics are important
-		- Method for function recognition and replacement (including nested functions) - possibly recursive?
+		- For and foreach loops - may need special handling for for loops in an additional regex to locate them
+		- Ensure all of subsets 0 and 1 are working correctly
+		- Handle if, for and while loops
+		- Handle function nesting
 
 	Low Priority To-Do:
+		- Handle python imports
 		- Recognise hashes in initial parsing (lack of semi-colons?)
 		- Rewrite parser yourself
-		- Handle python imports
 
+	Current problems:
+		- Handling semicolons, curly brackets, logical operators inside strings and regex expressions
