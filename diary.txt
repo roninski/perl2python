@@ -17,4 +17,9 @@ Date		Start	Stop	Activity		Comments
 2013/10/09	09:40			Coding			Handled logical operators
 											Managed basic while, if, else, elif
 2013/10/09			10:40					Handled next (continue in python)
+2013/10/09	11:00							Set up basic (outside of loop) <STDIN>
+											Handled basic usage of the ARGV array
+											Basic implementation of foreach
+											Chop and Chomp handled
+											
 

@@ -1,15 +1,5 @@
 #!/usr/bin/perl
 
-# Perl function handling
-# Two methods:
-# a) print x, y;
-# b) print(x, y)
-# Python uses brackets, so if I can get everything in brackets and 
-# formatted properly in cases like 'print "hello"' I can change the inside to a python outside
-
-
-
-
 # Puts all the code into one line
 $code = "";
 while ($line = <>){
@@ -24,14 +14,17 @@ while ($line = <>){
 %imports = (); # array for imports to access specific python functions
 
 # takes one string, formats it into nested functions e.g. print(print("hello")) from print print "hello"
-# this will format
+# this will format into that style.
 sub functionFormat{
 	# print $_[0];
 	my $toCheck = $_[0];
 	if ($toCheck =~/(^|\s)[A-Za-z]\w*\s*([^;]*)/){
-		# regex seems to detect most functions fine
-		# this probably should be recursive but that's a pain
+		# This regex detects most functions, BUT currently does not deal with nested functions
 		my $temp = $2;
+		if ($temp !~ /(?<=^\()(.*)(?=\))/){
+			$temp = "$2";
+		}
+		$temp = &functionFormat($temp);
 		if ($temp !~ /(?<=^\().*(?=\))/){
 			$temp = "($temp)";
 		}
@@ -46,23 +39,29 @@ sub handleFunctions{
 	if ($toHandle =~ /(^|\s)([A-Za-z]\w*)\s*\(([^;]*)\)/){
 		$function = $2;
 		$value = $3;
-		if ($function =~ /print\b/){
+		# Removing semicolons could fix this
+		# $value = &handleFunctions($value);
+		print "value: $value\n";
+		if ($function =~ /print/){
 			if (!$imports{"import sys"}){
 				$imports{"import sys"} = 1; # Global array imports
 			}
 			$function = "sys.stdout.write";
 			$value =~ s/(?<=["'])\s*\.\s*(?=["'])/\+/g;
-			my @array = split(/,/,$value);
+			my @array = split(/[.,]/,$value);
 			foreach $i (@array){
 				$i = "str($i)";
 			}
 			$value = join('+', @array);
-			$toHandle = "$function ($value);"
-			# need to finish this handling
+			$toHandle = "$function ($value);";
 		} elsif ($function =~ /last/){
 			$toHandle = "break;";
 		} elsif ($function =~ /next/){
 			$toHandle = "continue;"
+		} elsif ($function =~ /chop/){
+			$toHandle = "$value = str($value)[:-1];"
+		} elsif ($function =~ /chomp/){
+			$toHandle = "$value = str($value)[:-1] if str($value)[-1] == '\\n' else $value;"
 		}
 	} 
 	return $toHandle;
@@ -76,13 +75,47 @@ foreach $line (@array){
 	$line =~ s/\s*$//;
 
 	# Handle Functions
-	if ($line =~ /;$/){
+	if ($line =~ /^[^#].*;$/){
 		$line = &functionFormat($line);
 		$line = &handleFunctions($line);
+
 	# Handle elsif -> elif
 	} elsif ($line =~ /elsif/){ 
 		$line =~ s/elsif/elif/;
 	}
+
+	# Handle foreach loops
+	if ($line =~ /foreach\s+(\$[A-Za-z]\w*)\s*\(\s*(.*)\s*\)/){
+		my $for = $1;
+		my $in = $2;
+		if ($in =~ /@/){
+			$line = "for $for in $in \{";
+		}
+		# could be a range - specified by a..b
+		# could be an array - has an @ at the front
+		# could be a function, leave as is
+
+	}
+
+	# Handle <STDIN> or <> outside of loops
+	if ($line =~ /<STDIN>/ && $line !~ /while/){
+		$line =~ s/<STDIN>/sys.stdin.read\(\)/;
+	# Handle while loops where a variable is being set to <STDIN> or <>
+	# This is bad and you should feel bad
+	} elsif ($line =~ /^while\s*\((\s*\$[A-Za-z]\w*)\s*=\s*(<STDIN>|<>)\s*\)/){
+		if (!$imports{"import fileinput"}){
+			$imports{"import fileinput"} = 1;
+		}
+		$line = "for $1 in fileinput.input(){";
+	}
+
+
+	# Handle the @ARGV array
+	$line =~ s/[\@\$]ARGV/sys\.argv/;
+
+	# Handle eq and ne
+	$line =~ s/\seq\s/ == /g;
+	$line =~ s/\seq\s/ != /g;
 
 	# Split variables from single strings. 
 	# Only handles single strings

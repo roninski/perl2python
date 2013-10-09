@@ -27,18 +27,26 @@ Changelog
 		- Standardised in-line function display
 		- Handled "last" and detected "print" functions
 		- If, else, elif and while working
-		
+		- <STDIN> and <> working when set to variables (in or out of while loops)
+		- Basic handling of foreach
+		- Handled chop and chomp
 
 	High Priority To-Do:
-		- For and foreach loops - may need special handling for for loops in an additional regex to locate them
+		- Foreach loops - a..b (THIS CAN BE DONE QUICKLY)
+		- NESTED FUNCTIONS - do this IMMEDIATELY AFTER Foreach loops
 		- Ensure all of subsets 0 and 1 are working correctly
 		- Handle if, for and while loops
 		- Handle function nesting
+		- String Join
 
 	Low Priority To-Do:
+		- For loops
 		- Handle python imports
 		- Recognise hashes in initial parsing (lack of semi-colons?)
 		- Rewrite parser yourself
 
 	Current problems:
 		- Handling semicolons, curly brackets, logical operators inside strings and regex expressions
+		- Nested functions
+		- Casting for arithmetic operations
+
